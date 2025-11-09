@@ -9,6 +9,8 @@ class GrowTreeUseCase:
     def __init__(self):
         pass
 
-    def execute(self):
+    def execute(self, iterations: int = 1):
         """Execute the use case."""
-        return Branch(length=1)
+        tree_root = Branch(length=1)
+        tree_root.grow()
+        return tree_root
