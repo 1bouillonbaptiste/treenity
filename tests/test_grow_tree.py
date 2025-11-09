@@ -107,3 +107,27 @@ def test_should_create_two_new_branches_on_split(this_context: TestingContext):
         UUID("dcf8b64a-dac7-4644-b89f-040b2d07457f"): Branch(id=UUID("dcf8b64a-dac7-4644-b89f-040b2d07457f"), length=1),
         UUID("33e8ec10-acc5-49ec-a716-958ddb9bf9c5"): Branch(id=UUID("33e8ec10-acc5-49ec-a716-958ddb9bf9c5"), length=1),
     }
+
+
+def test_should_not_split_on_existing_children(this_context: TestingContext):
+    # Given
+    this_context.branch_repository.save(
+        Branch(
+            id=UUID("1e39c03a-f7ed-4c5f-b8cb-af75229fd2c3"),
+            length=6,
+            children_ids=[UUID("dcf8b64a-dac7-4644-b89f-040b2d07457f"), UUID("33e8ec10-acc5-49ec-a716-958ddb9bf9c5")],
+        )
+    )
+    this_context.split_strategy.activate()
+
+    # When
+    this_context.grow_tree_use_case.execute(tree_id=UUID("1e39c03a-f7ed-4c5f-b8cb-af75229fd2c3"), iterations=1)
+
+    # Then
+    assert this_context.branch_repository.branches == {
+        UUID("1e39c03a-f7ed-4c5f-b8cb-af75229fd2c3"): Branch(
+            id=UUID("1e39c03a-f7ed-4c5f-b8cb-af75229fd2c3"),
+            length=7,
+            children_ids=[UUID("dcf8b64a-dac7-4644-b89f-040b2d07457f"), UUID("33e8ec10-acc5-49ec-a716-958ddb9bf9c5")],
+        ),
+    }

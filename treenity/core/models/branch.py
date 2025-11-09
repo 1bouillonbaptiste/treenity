@@ -23,7 +23,9 @@ class Branch:
 
     def can_split(self) -> bool:
         """Check if the branch can be split."""
-        return self.length >= 5
+        has_children = len(self.children_ids) > 0
+        is_long_enough = self.length >= 5
+        return is_long_enough and not has_children
 
     def with_children(self, children_ids: list[uuid.UUID]) -> None:
         """Set the children of this branch."""
