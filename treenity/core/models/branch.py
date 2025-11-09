@@ -21,6 +21,10 @@ class Branch:
         """Grow the branch."""
         self.length += 1
 
+    def can_split(self) -> bool:
+        """Check if the branch can be split."""
+        return self.length >= 5
+
     def with_children(self, children_ids: list[uuid.UUID]) -> None:
         """Set the children of this branch."""
         self.children_ids = children_ids

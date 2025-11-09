@@ -25,8 +25,8 @@ class GrowTreeUseCase:
 
     def _grow_step(self, branch: Branch):
         """Grow a branch by one step."""
-        children_branches = self._split_strategy.split(branch)
-        if children_branches:
+        if branch.can_split():
+            children_branches = self._split_strategy.split(branch)
             branch.with_children([child.id for child in children_branches])
             for child_branch in children_branches:
                 self._branch_repository.save(child_branch)
