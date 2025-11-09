@@ -8,3 +8,6 @@
 # coverage report
 htmlcov/
 .coverage
+
+# `hypothesis` package local assets
+.hypothesis/

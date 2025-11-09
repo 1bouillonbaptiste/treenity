@@ -10,7 +10,8 @@ requires-python = ">=3.13"
 dependencies = [
     "pre-commit (>=4.3.0,<5.0.0)",
     "pytest (>=9.0.0,<10.0.0)",
-    "pytest-cov (>=7.0.0,<8.0.0)"
+    "pytest-cov (>=7.0.0,<8.0.0)",
+    "hypothesis (>=6.147.0,<7.0.0)"
 ]
 
 [tool.coverage.run]
