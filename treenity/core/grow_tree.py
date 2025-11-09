@@ -14,7 +14,10 @@ class GrowTreeUseCase:
 
     def execute(self, tree_id: uuid.UUID, iterations: int = 1):
         """Execute the use case."""
-        tree_root = Branch(id=tree_id, length=1)
+        if self._branch_repository.has_id(tree_id):
+            tree_root = self._branch_repository.get_by_id(tree_id)
+        else:
+            tree_root = Branch(id=tree_id, length=1)
         for _ in range(iterations):
             tree_root.grow()
         self._branch_repository.save(tree_root)
