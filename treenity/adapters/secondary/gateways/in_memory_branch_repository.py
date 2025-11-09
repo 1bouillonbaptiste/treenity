@@ -24,6 +24,4 @@ class InMemoryBranchRepository(BranchRepository):
 
     def get_by_id(self, branch_id: uuid.UUID) -> Branch:
         """Retrieve a branch from the repository."""
-        if branch_id not in self.branches:
-            raise ValueError(f"Branch with id {branch_id} not found.")
         return self.branches[branch_id]
