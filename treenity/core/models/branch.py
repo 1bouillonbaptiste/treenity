@@ -10,9 +10,17 @@ class Branch:
 
     id: uuid.UUID
     """Branch unique identifier."""
+
     length: int = 1
     """Length of the branch."""
+
+    children_ids: list[uuid.UUID] = dataclasses.field(default_factory=list)
+    """Children branches of this branch."""
 
     def grow(self) -> None:
         """Grow the branch."""
         self.length += 1
+
+    def with_children(self, children_ids: list[uuid.UUID]) -> None:
+        """Set the children of this branch."""
+        self.children_ids = children_ids

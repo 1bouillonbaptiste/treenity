@@ -3,14 +3,16 @@
 import uuid
 
 from treenity.core.gateways.branch_repository import BranchRepository
+from treenity.core.gateways.split_strategy import SplitStrategy
 from treenity.core.models.branch import Branch
 
 
 class GrowTreeUseCase:
     """Grow a tree from scratch."""
 
-    def __init__(self, branch_repository: BranchRepository):
+    def __init__(self, branch_repository: BranchRepository, split_strategy: SplitStrategy):
         self._branch_repository = branch_repository
+        self._split_strategy = split_strategy
 
     def execute(self, tree_id: uuid.UUID, iterations: int = 1):
         """Execute the use case."""
@@ -19,5 +21,15 @@ class GrowTreeUseCase:
         else:
             tree_root = Branch(id=tree_id, length=1)
         for _ in range(iterations):
-            tree_root.grow()
-        self._branch_repository.save(tree_root)
+            self._grow_step(tree_root)
+
+    def _grow_step(self, branch: Branch):
+        """Grow a branch by one step."""
+        children_branches = self._split_strategy.split(branch)
+        if children_branches:
+            branch.with_children([child.id for child in children_branches])
+            for child_branch in children_branches:
+                self._branch_repository.save(child_branch)
+        else:
+            branch.grow()
+        self._branch_repository.save(branch)
