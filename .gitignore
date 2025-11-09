@@ -1,4 +1,10 @@
 # Pycharm
 .idea/
 
+# poetry local env
+.venv/
 =2
+
+# coverage report
+htmlcov/
+.coverage
