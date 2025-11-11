@@ -2,7 +2,7 @@ import uuid
 
 from starlette.testclient import TestClient
 
-from treenity.adapters.primary.fastapi.controllers.grow_tree_controller import GenerateTreeResponse
+from treenity.adapters.primary.fastapi.controllers.generate_tree import GenerateTreeResponse
 from treenity.adapters.primary.fastapi.dependencies import get_branch_repository, get_split_strategy
 from treenity.adapters.secondary.gateways.dual_split_strategy import DualSplitStrategy
 from treenity.adapters.secondary.gateways.in_memory_branch_repository import InMemoryBranchRepository
