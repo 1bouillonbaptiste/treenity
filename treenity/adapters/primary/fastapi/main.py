@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from treenity.adapters.primary.fastapi.controllers import grow_tree_controller
+from treenity.adapters.primary.fastapi.controllers import grow_tree_controller, retrieve_tree
 from treenity.adapters.secondary.gateways.dual_split_strategy import DualSplitStrategy
 from treenity.adapters.secondary.gateways.in_memory_branch_repository import InMemoryBranchRepository
 from treenity.core.grow_tree import GrowTreeUseCase
@@ -30,6 +30,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Tree Generator", version="1.0.0", lifespan=lifespan)
 app.include_router(grow_tree_controller.router)
+app.include_router(retrieve_tree.router)
 
 if __name__ == "__main__":
     import uvicorn

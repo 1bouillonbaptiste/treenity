@@ -1,4 +1,4 @@
-"""Controller for `GrowTreeUseCase`."""
+"""Controller for growing a new tree."""
 
 import uuid
 
@@ -27,7 +27,7 @@ class GenerateTreeResponse(BaseModel):
 async def generate_tree(
     request: GenerateTreeRequest,
     grow_tree_use_case: GrowTreeUseCase = Depends(get_grow_tree_use_case),  # noqa: B008, `Depends` is a valid default
-):
+) -> GenerateTreeResponse:
     """Generate a new tree."""
     new_tree_id = uuid.uuid4()
     grow_tree_use_case.execute(tree_id=new_tree_id, iterations=request.iterations)
