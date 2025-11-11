@@ -3,8 +3,8 @@ from uuid import UUID
 from hypothesis import given
 from hypothesis import strategies as some
 
-from treenity.adapters.secondary.gateways.dual_split_strategy import DualSplitStrategy
 from treenity.adapters.secondary.gateways.in_memory_branch_repository import InMemoryBranchRepository
+from treenity.adapters.secondary.gateways.random_split_strategy import RandomSplitStrategy
 from treenity.core.gateways.branch_repository import BranchRepository
 from treenity.core.grow_tree import GrowTreeUseCase
 from treenity.core.models.branch import Branch
@@ -21,7 +21,7 @@ def _assert_children_shorter_than_parent(branch: Branch, branch_repository: Bran
 def test_children_shorter_than_parents_property(num_iterations: int):
     # Given
     fake_branch_repository = InMemoryBranchRepository()
-    fake_split_strategy = DualSplitStrategy(split_probability=0.1)
+    fake_split_strategy = RandomSplitStrategy(split_probability=0.1)
     grow_tree_use_case = GrowTreeUseCase(branch_repository=fake_branch_repository, split_strategy=fake_split_strategy)
 
     # When

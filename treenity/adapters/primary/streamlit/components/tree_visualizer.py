@@ -130,19 +130,39 @@ def _extract_tree_structure(tree_data: TreeData) -> Tree:
     branches = []
     leaves = []
 
-    def _traverse(branch: TreeData, current_position: Position):
-        """Recursively traverse tree and calculate positions."""
+    def _traverse(branch: TreeData, current_position: Position, parent_angle: float):
+        """Recursively traverse tree and calculate positions using angles."""
         if not branch.children:
             leaves.append(TreeLeaf(position=current_position))
         else:
             child_count = len(branch.children)
-            spread = max([2, child_count * 0.8])
-            start_x = current_position.x - spread / 2
-            for ii, child in enumerate(branch.children):
-                child_x = start_x + (spread / (child_count - 1)) * ii if child_count > 1 else current_position.x
-                child_position = Position(x=child_x, y=current_position.y + 1.5)
-                branches.append(TreeBranch(from_position=current_position, to_position=child_position))
-                _traverse(child, current_position=child_position)
 
-    _traverse(branch=tree_data, current_position=Position(x=0, y=0))
+            start_angle = parent_angle
+            angle_step: float = 0
+            if child_count > 1:
+                # Multiple children: spread between -45° and +45° from the parent direction
+                spread_range = 90
+                start_angle = max([0, parent_angle - spread_range / 2])
+                end_angle = min([180, parent_angle + spread_range / 2])
+                angle_step = (end_angle - start_angle) / (child_count - 1) if child_count > 1 else 0
+
+            for i, child in enumerate(branch.children):
+                child_angle = start_angle + (angle_step * i)
+
+                # Convert angle to radians and calculate position
+                angle_rad = math.radians(child_angle)
+                branch_length = child.length
+
+                child_position = Position(
+                    x=current_position.x + branch_length * math.cos(angle_rad),
+                    y=current_position.y + branch_length * math.sin(angle_rad),
+                )
+                branches.append(TreeBranch(from_position=current_position, to_position=child_position))
+
+                _traverse(branch=child, current_position=child_position, parent_angle=child_angle)
+
+    first_branch = TreeBranch(from_position=Position(x=0, y=0), to_position=Position(x=0, y=tree_data.length))
+    branches.append(first_branch)
+
+    _traverse(branch=tree_data, current_position=first_branch.to_position, parent_angle=90)
     return Tree(branches=branches, leaves=leaves)

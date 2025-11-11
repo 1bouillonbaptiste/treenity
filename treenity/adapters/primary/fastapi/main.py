@@ -5,8 +5,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from treenity.adapters.primary.fastapi.controllers import generate_tree, retrieve_tree
-from treenity.adapters.secondary.gateways.dual_split_strategy import DualSplitStrategy
 from treenity.adapters.secondary.gateways.in_memory_branch_repository import InMemoryBranchRepository
+from treenity.adapters.secondary.gateways.random_split_strategy import RandomSplitStrategy
 from treenity.core.grow_tree import GrowTreeUseCase
 
 
@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
     """Lifespan context manager."""
     # Wiring
     branch_repository = InMemoryBranchRepository()
-    split_strategy = DualSplitStrategy(split_probability=0.33)
+    split_strategy = RandomSplitStrategy(split_probability=0.5)
     grow_tree_use_case = GrowTreeUseCase(
         branch_repository=branch_repository,
         split_strategy=split_strategy,
