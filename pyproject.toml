@@ -23,6 +23,11 @@ dependencies = [
 [tool.coverage.run]
 omit = ["tests/*"]
 
+# Ignore missing type stubs for requests
+[[tool.mypy.overrides]]
+module = "requests"
+ignore_missing_imports = true
+
 
 
 [build-system]
