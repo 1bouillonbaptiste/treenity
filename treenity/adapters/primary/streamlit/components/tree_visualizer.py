@@ -27,16 +27,21 @@ class TreeBranch:
     to_position: Position
 
     @property
-    def length(self):
-        """Calculate branch length."""
+    def size(self):
+        """Calculate branch size."""
         length_x = self.to_position.x - self.from_position.x
         length_y = self.to_position.y - self.from_position.y
         return (length_x**2 + length_y**2) ** 0.5
 
     @property
+    def length(self):
+        """Calculate branch length."""
+        return self.size**0.5
+
+    @property
     def diameter(self):
         """Calculate branch diameter."""
-        return math.log2(self.length)
+        return math.log2(1 + self.size)
 
 
 @dataclasses.dataclass
