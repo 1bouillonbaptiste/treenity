@@ -11,10 +11,10 @@ from treenity.core.models.branch import Branch
 class InMemoryBranchRepository(BranchRepository):
     """In memory branch repository."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.branches: dict[uuid.UUID, Branch] = {}
 
-    def save(self, branch: Branch) -> None:
+    def save(self, branch: Branch):
         """Save a branch in memory."""
         self.branches[branch.id] = branch
 

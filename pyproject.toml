@@ -14,7 +14,10 @@ dependencies = [
     "hypothesis (>=6.147.0,<7.0.0)",
     "fastapi (>=0.121.1,<0.122.0)",
     "uvicorn (>=0.38.0,<0.39.0)",
-    "httpx (>=0.28.1,<0.29.0)"
+    "httpx (>=0.28.1,<0.29.0)",
+    "streamlit (>=1.51.0,<2.0.0)",
+    "plotly (>=6.4.0,<7.0.0)",
+    "types-requests (>=2.32.4.20250913,<3.0.0.0)"
 ]
 
 [tool.coverage.run]

@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
     """Lifespan context manager."""
     # Wiring
     branch_repository = InMemoryBranchRepository()
-    split_strategy = DualSplitStrategy(split_probability=0.1)
+    split_strategy = DualSplitStrategy(split_probability=0.33)
     grow_tree_use_case = GrowTreeUseCase(
         branch_repository=branch_repository,
         split_strategy=split_strategy,
