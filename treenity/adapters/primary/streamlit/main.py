@@ -29,7 +29,7 @@ def main():
 
         # Input controls
         iterations = streamlit.number_input(
-            "Number of iterations", min_value=1, max_value=20, value=5, help="How many growth iterations to perform"
+            "Number of iterations", min_value=1, max_value=100, value=5, help="How many growth iterations to perform"
         )
 
         # Generate button
